@@ -1,87 +1,558 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CrashGuard – Save Lives, Ride Smart</title>
-    <meta charset="UTF-8">
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f6f8fa; }
-        h1, h2 { color: #2563eb; }
-        .hero { background: #eef; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .cta { background: #2563eb; color: #fff; padding: 20px; border-radius: 6px; margin: 20px 0; text-align: center;}
-        .comparison { margin: 20px 0; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 8px; border: 1px solid #ccc; }
-        .testimonial { color: #222; font-style: italic; margin: 20px 0; }
-        footer { margin-top: 40px; font-size: 0.9em; color: #555; text-align: center;}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrashGuard | Smart Crash Detection System</title>
+  <!-- Import Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+  :root{
+    /* --- Red/White Theme --- */
+    --brand:#b91c1c;  /* Deep Red */
+    --accent:#ef4444; /* Bright Red */
+    --bg:#fef2f2;     /* Very Light Red */
+    --card:#ffffff;
+    --muted:#6b7280;
+    --radius:16px;
+    --shadow:0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  body{
+    margin:0;
+    font-family:"Inter", Arial, sans-serif;
+    background:var(--bg);
+    color:#111;
+  }
+
+  /* HEADER */
+  header{
+    background:#ffffff;
+    padding:14px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(0,0,0,0.08);
+    position:sticky;
+    top:0;
+    z-index:40;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  header h1{
+    font-size:22px;
+    margin:0;
+    font-weight:800;
+    color:var(--brand);
+  }
+
+  nav a{
+    text-decoration:none;
+    margin-left:18px;
+    color:#0a3d62; /* Kept original color for contrast, could also be var(--brand) */
+    font-weight:600;
+    padding:6px 10px;
+    border-radius:8px;
+    transition:0.2s;
+  }
+
+  nav a:hover{
+    background:#fee2e2; /* Light red hover */
+  }
+
+  button{
+    background:var(--brand);
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    transition: all 0.2s;
+  }
+
+  button:hover{
+    transform:translateY(-2px);
+    background:#991b1b; /* Darker red */
+    box-shadow: 0 4px 10px rgba(185, 28, 28, 0.2);
+  }
+  
+  button.secondary {
+    background: #eee;
+    color: #111;
+  }
+  button.secondary:hover {
+     background: #e0e0e0;
+     box-shadow: none;
+  }
+
+
+  /* HERO */
+  .hero{
+    margin:26px auto;
+    padding:60px 26px;
+    max-width:1100px;
+    border-radius:var(--radius);
+    /* Red-themed gradient */
+    background:linear-gradient(135deg, #fee2e2, #fffbfa);
+    box-shadow:var(--shadow);
+    text-align:center;
+  }
+
+  .hero h2{
+    font-size:34px;
+    margin:0 0 12px;
+  }
+
+  .hero p{
+    font-size:17px;
+    color:var(--muted);
+  }
+
+  /* SECTIONS */
+  .container{
+    max-width:1100px;
+    margin:30px auto;
+    padding:0 20px;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:24px;
+    box-shadow:var(--shadow);
+    margin-bottom:26px;
+    border:1px solid rgba(0,0,0,0.04);
+    transition:0.25s;
+  }
+
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 38px rgba(0,0,0,0.12);
+  }
+
+  /* PRODUCT GRID */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:20px;
+  }
+
+  .product-img{
+    height:140px;
+    border-radius:14px;
+    /* Updated background for product image placeholder */
+    background:linear-gradient(to bottom right,#fef2f2,#ffffff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--muted);
+    font-size:15px;
+    margin-bottom:14px;
+    box-shadow:inset 0 0 15px rgba(0,0,0,0.06);
+  }
+
+  .price{
+    font-weight:700;
+    font-size:20px;
+    color:var(--brand);
+  }
+
+  /* CART */
+  .cart{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--accent);
+    color:#fff;
+    padding:14px 18px;
+    border-radius:14px;
+    /* Red-themed shadow */
+    box-shadow:0 10px 30px rgba(239, 68, 68, 0.3);
+    font-weight:600;
+    cursor:pointer;
+    transition: all 0.2s;
+  }
+  .cart:hover {
+    transform: scale(1.05);
+  }
+
+  /* MODAL */
+  .modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(6px);
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .modal.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-card{
+    background:#fff;
+    width: 90%;
+    max-width:400px;
+    padding:26px;
+    border-radius:var(--radius);
+    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+    animation:pop 0.25s ease-out;
+    transform: scale(0.95);
+    transition: transform 0.2s ease;
+  }
+  
+  .modal.show .modal-card {
+    transform: scale(1);
+  }
+  
+  .modal-card h4 {
+    margin-top: 0;
+    font-size: 20px;
+  }
+  
+  .modal-buttons {
+    display:flex;
+    gap:8px;
+    justify-content:flex-end;
+    margin-top:24px;
+  }
+
+  @keyframes pop{
+    from{transform:scale(0.9);opacity:0}
+    to{transform:scale(1);opacity:1}
+  }
+
+  .field{
+    margin-bottom:18px;
+  }
+  
+  .field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .field input{
+    box-sizing: border-box; /* Fix width issue */
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #d8dfea;
+    transition:0.2s;
+    font-size:15px;
+  }
+
+  .field input:focus{
+    border-color:var(--accent);
+    /* Red-themed focus shadow */
+    box-shadow:0 0 0 3px rgba(239, 68, 68, 0.2);
+    outline:none;
+  }
+
+  /* FOOTER */
+  footer{
+    background:var(--brand);
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+    border-radius:14px 14px 0 0;
+  }
+</style>
 </head>
 <body>
-    <div class="hero">
-        <h1>CrashGuard – Smart Crash Detection Helmet</h1>
-        <p>Every 4 minutes, a person dies on Indian roads due to delayed medical help. CrashGuard brings safety and instant emergency support to every rider.</p>
+  <!-- Header -->
+  <header>
+    <div style="display:flex;align-items:center;gap:12px">
+      <!-- Added placeholder fallback for logo -->
+      <img 
+        src="AppLogo.jpg" 
+        alt="CrashGuard Logo" 
+        style="height:40px;width:40px;border-radius:8px;object-fit:cover;background:#fff"
+        onerror="this.onerror=null; this.src='https://placehold.co/40x40/b91c1c/ffffff?text=CG&font=inter';"
+      >
+      <h1>CrashGuard</h1>
     </div>
-
-    <h2>Key Features</h2>
-    <ul>
-        <li>Real-time crash detection</li>
-        <li>Instant GPS alerts to contacts</li>
-        <li>Ride tracking via user-friendly app</li>
-        <li>Customizable emergency settings</li>
-    </ul>
-
-    <h2>Why Choose CrashGuard?</h2>
-    <ul>
-        <li>Protects riders and reduces risks</li>
-        <li>Gives peace of mind to families</li>
-        <li>Affordable and easy to use</li>
-        <li>Earns you recognition as a responsible rider</li>
-    </ul>
-
-    <div class="testimonial">
-        “CrashGuard’s instant alerts helped us get help faster. The ride tracking made my daily commute safe and stress-free!”<br>
-        – Priya Mehta, Early User
+    <div class="topbar-actions" style="display:flex; align-items:center; gap: 8px;">
+      <nav>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#store">Buy</a>
+      </nav>
+      <button id="loginBtn">Log in</button>
     </div>
+  </header>
 
-    <div class="comparison">
-        <h2>Competitor Comparison</h2>
-        <table>
-            <tr>
-                <th>Feature</th>
-                <th>CrashGuard</th>
-                <th>Altor</th>
-                <th>Google SOS</th>
-            </tr>
-            <tr>
-                <td>Crash Detection</td>
-                <td>Yes</td>
-                <td>Yes</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td>GPS Alerts</td>
-                <td>Yes</td>
-                <td>No</td>
-                <td>Yes</td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td>Affordable</td>
-                <td>High</td>
-                <td>Premium</td>
-            </tr>
-        </table>
+  <!-- Main Content -->
+  <main class="container">
+    <section class="hero">
+      <h2>Smart Crash Detection & Emergency Alert System</h2>
+      <p class="muted">Detects crashes, not excuses. The ultimate smart crash detection and alert system.</p>
+    </section>
+
+    <section id="about" style="margin-top:18px">
+      <div class="card">
+        <h3>About CrashGuard</h3>
+        <p class="muted">CrashGuard is a smart safety system designed to detect crashes instantly, alert emergency contacts, and guide riders to quick help. It focuses on safety, responsiveness, and real‑world usability without going into technical complexity.</p>
+      </div>
+    </section>
+
+    <section id="features" style="margin-top:18px">
+      <div class="card">
+        <h3>Key Features</h3>
+        <ul>
+          <li>Real‑time crash detection with instant alerts</li>
+          <li>Automatic SMS to emergency contacts with live location</li>
+          <li>Nearby hospitals detection for quick assistance</li>
+          <li>Manual SOS trigger from the mobile app</li>
+          <li>Crash history and ride records</li>
+          <li>Secure user login and clean mobile interface</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="store" style="margin-top:18px">
+      <div class="card">
+        <h3>Buy CrashGuard Accessories</h3>
+        <p class="muted">Browse our official accessories. Clicking "Buy" adds items to your cart.</p>
+        <div class="grid" id="products"></div>
+      </div>
+    </section>
+      <section id="download" style="margin-top:18px">
+      <div class="card" style="text-align:center">
+        <h3>Download the CrashGuard App</h3>
+        <p class="muted">Get the official CrashGuard mobile app for seamless connectivity, alerts, and safety tools.</p>
+        <button style="margin-top:10px; font-size:16px; padding:12px 20px; border-radius:12px;">Download App (APK)</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart Button -->
+  <div id="cartBtn" class="cart" style="display:none">Cart (<span id="cartCount">0</span>) • ₹<span id="cartTotal">0</span></div>
+
+  <!-- Footer -->
+  <footer>
+    <small>CrashGuard Project | Engineering Showcase</small>
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-card">
+      <h4 style="margin-top:0">Account Login</h4>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="demo@crashguard.test">
+      </div>
+      <div class="field">
+        <label for="pass">Password</label>
+        <input id="pass" type="password" placeholder="demo123">
+      </div>
+      <div class="modal-buttons">
+        <button id="closeLogin" class="secondary">Cancel</button>
+        <button id="doLogin">Sign in</button>
+      </div>
+      <p class="muted" style="font-size:13px;margin-top:10px">Use credentials: <strong>demo@crashguard.test / demo123</strong></p>
     </div>
-
-    <div class="cta">
-        <h2 style="color: #eaecef;"> Get CrashGuard Today!</h2>
-        <p>Affordable. Easy to use. Join hundreds of safe riders!</p>
-        <button>Buy Now</button>
-        <button>Contact Us</button>
+  </div>
+  
+  <!-- NEW: Alert Modal -->
+  <div id="alertModal" class="modal">
+    <div class="modal-card" style="max-width: 350px;">
+      <h4 id="alertTitle">Alert</h4>
+      <p id="alertMessage" class="muted" style="font-size: 15px; margin: 16px 0;">This is an alert message.</p>
+      <div class="modal-buttons">
+        <button id="closeAlert">OK</button>
+      </div>
     </div>
+  </div>
+  
+  <!-- NEW: Confirm Modal -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-card">
+      <h4 id="confirmTitle">Confirm Action</h4>
+      <p id="confirmMessage" class="muted" style="font-size: 15px; margin: 16px 0; white-space: pre-wrap;"></p>
+      <div class="modal-buttons">
+        <button id="cancelConfirm" class="secondary">Cancel</button>
+        <button id="doConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
 
-    <footer>
-        &copy; 2025 CrashGuard – Smart Crash Detection Helmet
-    </footer>
+
+  <script>
+    // --- NEW: Custom Modal Functions ---
+    
+    // Get modal elements
+    const loginModal = document.getElementById('loginModal');
+    const alertModal = document.getElementById('alertModal');
+    const confirmModal = document.getElementById('confirmModal');
+    
+    // Alert modal
+    const alertMessageEl = document.getElementById('alertMessage');
+    const alertTitleEl = document.getElementById('alertTitle');
+    const closeAlertBtn = document.getElementById('closeAlert');
+    
+    function showAlert(message, title = 'Alert') {
+      alertMessageEl.textContent = message;
+      alertTitleEl.textContent = title;
+      alertModal.classList.add('show');
+    }
+    closeAlertBtn.addEventListener('click', () => alertModal.classList.remove('show'));
+
+    // Confirm modal
+    const confirmMessageEl = document.getElementById('confirmMessage');
+    const confirmTitleEl = document.getElementById('confirmTitle');
+    const cancelConfirmBtn = document.getElementById('cancelConfirm');
+    const doConfirmBtn = document.getElementById('doConfirm');
+    
+    // This function returns a Promise that resolves with true or false
+    function showConfirm(message, title = 'Confirm Action') {
+      return new Promise((resolve) => {
+        confirmMessageEl.textContent = message;
+        confirmTitleEl.textContent = title;
+        confirmModal.classList.add('show');
+        
+        // Remove old listeners to avoid stacking
+        const newDoConfirmBtn = doConfirmBtn.cloneNode(true);
+        doConfirmBtn.parentNode.replaceChild(newDoConfirmBtn, doConfirmBtn);
+        
+        const newCancelConfirmBtn = cancelConfirmBtn.cloneNode(true);
+        cancelConfirmBtn.parentNode.replaceChild(newCancelConfirmBtn, cancelConfirmBtn);
+
+        // Add new listeners
+        newDoConfirmBtn.addEventListener('click', () => {
+          confirmModal.classList.remove('show');
+          resolve(true);
+        }, { once: true }); // Ensure listener fires only once
+        
+        newCancelConfirmBtn.addEventListener('click', () => {
+          confirmModal.classList.remove('show');
+          resolve(false);
+        }, { once: true }); // Ensure listener fires only once
+      });
+    }
+
+    // --- Demo login (client-side only) ---
+    const loginBtn = document.getElementById('loginBtn');
+    const closeLogin = document.getElementById('closeLogin');
+    const doLogin = document.getElementById('doLogin');
+
+    loginBtn.addEventListener('click', () => loginModal.classList.add('show'));
+    closeLogin.addEventListener('click', () => loginModal.classList.remove('show'));
+    
+    doLogin.addEventListener('click', () => {
+      const email = document.getElementById('email').value.trim();
+      const pass = document.getElementById('pass').value;
+      if(email === 'demo@crashguard.test' && pass === 'demo123'){
+        loginModal.classList.remove('show');
+        loginBtn.textContent = 'Hi, Demo';
+        loginBtn.disabled = true;
+        // Replaced alert()
+        showAlert('You are now signed in.', 'Login Successful');
+      } else {
+        // Replaced alert()
+        showAlert('Invalid credentials. Please try again.', 'Login Failed');
+      }
+    });
+
+    // --- Mock store data and cart ---
+    const products = [
+      {id:1,name:'CrashGuard Sensor Kit',desc:'ESP32 + MPU6050 starter kit',price:5000},
+      {id:2,name:'Helmet Mount',desc:'Shock-resistant mount for sensor',price:499},
+      {id:3,name:'Emergency Power Pack',desc:'Compact 18650 battery kit',price:899}
+    ];
+
+    const productsEl = document.getElementById('products');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartCount = document.getElementById('cartCount');
+    const cartTotal = document.getElementById('cartTotal');
+
+    let cart = [];
+
+    function renderProducts(){
+      productsEl.innerHTML = '';
+      products.forEach(p=>{
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <div class=product-img>Image</div>
+          <h4 style="margin:6px 0">${p.name}</h4>
+          <p class="muted" style="margin:6px 0">${p.desc}</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+            <div class="price">₹${p.price}</div>
+            <button onclick="addToCart(${p.id})">Buy</button>
+          </div>
+        `;
+        productsEl.appendChild(el);
+      })
+    }
+
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      const existing = cart.find(x=>x.id===id);
+      if(existing) existing.qty++;
+      else cart.push({id:p.id,name:p.name,price:p.price,qty:1});
+      updateCartUI();
+    }
+
+    function updateCartUI(){
+      const count = cart.reduce((s,i)=>s+i.qty,0);
+      const total = cart.reduce((s,i)=>s + i.price*i.qty,0);
+      cartCount.textContent = count; cartTotal.textContent = total;
+      if(count>0) cartBtn.style.display='block'; else cartBtn.style.display='none';
+    }
+
+    // --- Cart checkout ---
+    // Made the listener async to use await for the custom confirm
+    cartBtn.addEventListener('click', async () => {
+      if(cart.length === 0) {
+        showAlert('Your cart is empty.', 'Empty Cart');
+        return;
+      }
+      
+      let summary = 'Order summary:\n';
+      cart.forEach(i=>summary += ${i.name} x ${i.qty} = ₹${i.price*i.qty}\n);
+      summary += \nTotal: ₹${cart.reduce((s,i)=>s+i.qty*i.price,0)};
+      summary += '\n\nClick Confirm to proceed with your order.';
+      
+      // Replaced confirm() with new async showConfirm()
+      const userConfirmed = await showConfirm(summary, 'Confirm Checkout');
+      
+      if(userConfirmed){
+        cart = []; 
+        updateCartUI(); 
+        showAlert('Your order has been placed successfully! Your cart is now empty.', 'Order Placed');
+      }
+    });
+
+    // init
+    renderProducts(); 
+    updateCartUI();
+
+    // small: close modal on outside click
+    function closeModalOnOutsideClick(modalEl) {
+      modalEl.addEventListener('click',(e)=>{ 
+        if(e.target === modalEl) modalEl.classList.remove('show')
+      });
+    }
+    
+    closeModalOnOutsideClick(loginModal);
+    closeModalOnOutsideClick(alertModal);
+    closeModalOnOutsideClick(confirmModal);
+    
+  </script>
 </body>
 </html>
-
+}
