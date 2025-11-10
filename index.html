@@ -523,8 +523,8 @@
       }
       
       let summary = 'Order summary:\n';
-      cart.forEach(i=>summary += ${i.name} x ${i.qty} = ₹${i.price*i.qty}\n);
-      summary += \nTotal: ₹${cart.reduce((s,i)=>s+i.qty*i.price,0)};
+      cart.forEach(i=>summary += `${i.name} x ${i.qty} = ₹${i.price*i.qty}\n`);
+      summary += `\nTotal: ₹${cart.reduce((s,i)=>s+i.qty*i.price,0)}`;
       summary += '\n\nClick Confirm to proceed with your order.';
       
       // Replaced confirm() with new async showConfirm()
@@ -555,4 +555,3 @@
   </script>
 </body>
 </html>
-}
